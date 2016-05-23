@@ -33,16 +33,16 @@ a unique name.
 
 Principals belong to administrative units called *realms*. For each
 realm, the Kerberos Key Distribution Center (KDC) maintains a database
-of the realm's principal and the principals' associated "secret keys".
+of the realm's principals and the principals' associated "secret keys".
 
-For a client-server authentication, the client requests from the KDC a
-"ticket" for access to a specific asset. KDC uses the client's
+For client-server authentication, the client requests from the KDC a
+"ticket" for access to a specific asset. The KDC uses the client's
 secret and the server's secret to construct the ticket which allows the
 client and server to mutually authenticate each other, while keeping
 the secrets hidden.
 
 For the configuration of MongoDB for Kerberos support, two kinds of
-principal names are of interest: :ref:`user principals
+principals are of interest: :ref:`user principals
 <kerberos-user-principal>` and :ref:`service principals
 <kerberos-service-principal>`.
 
@@ -52,7 +52,7 @@ User Principal
 ``````````````
 
 To authenticate using Kerberos, you must add the Kerberos user
-principals to MongoDB to the ``$external`` database. User principal
+principals to MongoDB in the ``$external`` database. User principal
 names have the form:
 
 .. code-block:: none
@@ -78,7 +78,7 @@ Service Principal
 `````````````````
 
 Every MongoDB :program:`mongod` and :program:`mongos` instance (or
-:program:`mongod.exe` or :program:`mongos.exe` on Windows) must have an
+:program:`mongod.exe` and :program:`mongos.exe` on Windows) must have an
 associated service principal. Service principal names have the form:
 
 .. code-block:: none
@@ -92,15 +92,15 @@ principal name ``mongodb/m1.example.com@EXAMPLE.COM``.
 
 To specify a different value for ``<service>``, use
 :setting:`~security.sasl.serviceName` during the start up of :program:`mongod` or
-:program:`mongos` (or :program:`mongod.exe` or :program:`mongos.exe`).
+:program:`mongos` (or :program:`mongod.exe` or :program:`mongos.exe`). The
 :program:`mongo` shell or other clients may also specify a different
 service principal name using :setting:`~security.sasl.serviceName`.
 
-Service principal names must be reachable over the network using the
-fully qualified domain name (FQDN) part of its service principal name.
+Each instance must be reachable over the network using the fully qualified domain
+name (FQDN) from its service principal name.
 
 By default, Kerberos attempts to identify hosts using the
-``/etc/kerb5.conf`` file before using DNS to resolve hosts.
+``/etc/krb5.conf`` file before using DNS to resolve hosts.
 
 On Windows, if running MongoDB as a service, see
 :ref:`assign-service-principal-name`.
